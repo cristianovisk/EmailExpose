@@ -6,6 +6,12 @@ Os dados utilizados pela EmailExpose são retirados do site [Hotsheet](https://w
 
 Para utilizar a EmailExpose, basta fornecer uma lista de e-mails e deixar que a ferramenta faça o resto. Mantenha-se informado sobre possíveis exposições de dados e tome medidas proativas para proteger suas informações pessoais.
 
+Instalação:
+
+```shell
+pip install email-expose
+```
+
 Exemplo de uso:
 
 ```shell
