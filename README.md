@@ -5,3 +5,9 @@ EmailExpose é uma ferramenta de linha de comando que verifica rapidamente se um
 Os dados utilizados pela EmailExpose são retirados do site [Hotsheet](https://www.hotsheet.com/inoitsu/), uma fonte confiável de informações sobre vazamentos de dados na web.
 
 Para utilizar a EmailExpose, basta fornecer uma lista de e-mails e deixar que a ferramenta faça o resto. Mantenha-se informado sobre possíveis exposições de dados e tome medidas proativas para proteger suas informações pessoais.
+
+Exemplo de uso:
+
+```shell
+email_expose --file /home/user/EmailExpose/list_emails.txt
+```
