@@ -26,3 +26,22 @@ Com output:
 $ email_expose --file /home/user/EmailExpose/list_emails.txt --output
 Output file: output.xlsx
 ```
+
+Como lib Python:
+```python
+from email_expose import expose_consult
+i = expose_consult.Inoitsu()
+result = i.consult_email('fulano@gmail.com')
+print(result)
+```
+```json
+{
+    'email': 'fulano@gmail.com',
+    'breach_detect': 'BREACH DETECTED!',
+    'risk_password_leak': True,
+    'total_breaches': 5,
+    'most_recent_breach': '2021-01-01',
+    'sources_breaches': ['Twitter (200M)', 'Nitro', 'Dailymotion', 'Deezer', 'Vakinha'],
+    'summary': ['Dates of birth', 'Names', 'Passwords', 'Usernames']
+}
+```
