@@ -33,10 +33,30 @@ class Inoitsu:
 
         for email in self.emails_leak.keys():
             table.add_row(
-                f'{self.emails_leak[email].get("breach_detect")}', f'{email}', f'{self.emails_leak[email].get("most_recent_breach")}', f'{self.emails_leak[email].get("total_breaches")}', f'{self.emails_leak[email].get("sources_breaches")}', f'{self.emails_leak[email].get("risk_password_leak")}'
+                f'{self.emails_leak[email].get("breach_detect")}', f'{email}', f'{self.emails_leak[email].get("most_recent_breach")}', f'{self.emails_leak[email].get("total_breaches")}', f'{self.__list_to_string(self.emails_leak[email].get("sources_breaches"))}', f'{self.emails_leak[email].get("risk_password_leak")}'
             )
         return table
     
+    def __list_to_string(self, list_data):
+        if list_data:
+            return ', '.join(map(str, list_data))
+    
+    def generate_output(self):
+        print('[green bold][+] [yellow]Output in file "output.xlsx"')
+        output_data = []
+        for email in self.emails_leak.keys():
+            sources = self.__list_to_string(self.emails_leak[email].get("sources_breaches"))
+            model = {
+                "Detection": f'{self.emails_leak[email].get("breach_detect")}', 
+                "E-mail": f'{email}', 
+                "Most Recent": f'{self.emails_leak[email].get("most_recent_breach")}', 
+                "Total Breaches": f'{self.emails_leak[email].get("total_breaches")}', 
+                "Sources Breaches": f'{sources}',
+                "Possible Password Leak": f'{self.emails_leak[email].get("risk_password_leak")}'
+            }
+            output_data.append(model)
+        pd.DataFrame(output_data).to_excel('output.xlsx', index=False, sheet_name="REPORT_LEAK_EMAILS_DATA")
+
     def xpath_parser(self, tree, xpath, item=0, split=False, split_simbol=','):
         if len(tree.xpath(xpath)) == 0:
             return []
@@ -131,7 +151,7 @@ class Inoitsu:
                 self.consult_email(email=email)
 
 @app.command()
-def cli(file: str = typer.Option(help="Text file with emails line by line")):
+def cli(file: str = typer.Option(help="Text file with emails line by line"), output: bool = typer.Option(default=False, help="Flag that output result in file named the 'output.xlsx'"), ):
     with open(file, 'r') as file:
         emails = [line.rstrip() for line in file]
     i = Inoitsu()
@@ -141,6 +161,8 @@ def cli(file: str = typer.Option(help="Text file with emails line by line")):
         while True:
             live.update(i.generate_table())
             if threading.active_count() == 2:
+                if output:
+                    i.generate_output()
                 break
             
 if __name__ == "__main__":

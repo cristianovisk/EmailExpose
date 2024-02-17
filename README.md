@@ -9,11 +9,20 @@ Para utilizar a EmailExpose, basta fornecer uma lista de e-mails e deixar que a 
 Instalação:
 
 ```shell
-pip install email-expose
+$ pip install email-expose
 ```
 
 Exemplo de uso:
 
+Sem output:
+
 ```shell
-email_expose --file /home/user/EmailExpose/list_emails.txt
+$ email_expose --file /home/user/EmailExpose/list_emails.txt
+```
+
+Com output:
+
+```shell
+$ email_expose --file /home/user/EmailExpose/list_emails.txt --output
+Output file: output.xlsx
 ```
