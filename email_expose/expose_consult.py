@@ -32,8 +32,16 @@ class Inoitsu:
         table.add_column('Possible Password Leak')
 
         for email in self.emails_leak.keys():
+            if self.emails_leak[email].get("breach_detect") == 'BREACH DETECTED!':
+                breach_detect = f':red_circle: {self.emails_leak[email].get("breach_detect")}'
+            else:
+                breach_detect = f':green_circle: {self.emails_leak[email].get("breach_detect")}'
+            if self.emails_leak[email].get("risk_password_leak"):
+                risk_leak_password = f":key: True"
+            else:
+                risk_leak_password = f"False"
             table.add_row(
-                f'{self.emails_leak[email].get("breach_detect")}', f'{email}', f'{self.emails_leak[email].get("most_recent_breach")}', f'{self.emails_leak[email].get("total_breaches")}', f'{self.__list_to_string(self.emails_leak[email].get("sources_breaches"))}', f'{self.emails_leak[email].get("risk_password_leak")}'
+                breach_detect, f'{email}', f'{self.emails_leak[email].get("most_recent_breach")}', f'{self.emails_leak[email].get("total_breaches")}', f'{self.__list_to_string(self.emails_leak[email].get("sources_breaches"))}', risk_leak_password
             )
         return table
     
@@ -157,7 +165,7 @@ def cli(file: str = typer.Option(help="Text file with emails line by line"), out
     i = Inoitsu()
     t1 = threading.Thread(target=i.consult_list_emails, args=(emails,))
     t1.run()
-    with Live(i.generate_table(), refresh_per_second=2) as live:
+    with Live(i.generate_table(), refresh_per_second=4) as live:
         while True:
             live.update(i.generate_table())
             if threading.active_count() == 2:
